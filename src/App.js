@@ -69,11 +69,14 @@ function App() {
     filteredData.forEach((item) => {
       let totalLotsAvailable = 0;
 
+      // loop through the carpark info because it might have more than one object
       item.carpark_info.forEach((info) => {
         const lotsAvailable = parseInt(info.lots_available);
         totalLotsAvailable += lotsAvailable;
       });
 
+      // if the carpark info has more than one object, replace the lots_available totalLotsAvailable
+      // in this case, there will always be only one object inside carpark_info
       if (
         highest === null ||
         totalLotsAvailable > parseInt(highest.carpark_info[0].lots_available)

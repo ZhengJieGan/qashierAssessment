@@ -34,11 +34,6 @@ export const dummyData = [
   {
     carpark_info: [
       {
-        total_lots: "200",
-        lot_type: "C",
-        lots_available: "120",
-      },
-      {
         total_lots: "100",
         lot_type: "C",
         lots_available: "300",
