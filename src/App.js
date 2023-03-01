@@ -111,13 +111,9 @@ function App() {
   // Restructure the data for easier props passing
   const DataRestructure = (data) => {
     let totalAvailable = 0;
-    if (data?.carpark_info?.length > 1) {
-      data?.carpark_info.forEach((item) => {
-        totalAvailable += parseInt(item.lots_available);
-      });
-    } else {
-      totalAvailable = parseInt(data?.carpark_info[0]?.lots_available);
-    }
+
+    totalAvailable = parseInt(data?.carpark_info[0]?.lots_available);
+
     return { carpark: data?.carpark_number, available: totalAvailable };
   };
 
