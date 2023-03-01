@@ -6,6 +6,10 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 
 In the project directory, you can run:
 
+### `docker run -p 3000:3000 qashier-assessment`
+
+This is the command for running the docker
+
 ### `npm start`
 
 Runs the app in the development mode.\
