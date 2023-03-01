@@ -11,9 +11,6 @@ function App() {
   const date = dateObject.toLocaleString("en-US", {
     timeZone: "Asia/Kuala_Lumpur",
   });
-  // const klDateObject = new Date(date);
-  // const klIsoString = klDateObject.toISOString();
-  // const formattedDate = encodeURIComponent(klIsoString).slice(0, -5);
 
   useEffect(() => {
     async function getData() {
