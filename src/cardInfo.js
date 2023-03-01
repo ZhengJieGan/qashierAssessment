@@ -14,7 +14,7 @@ const CardInfo = (props) => {
         </CardBody>
       ) : (
         <CardBody>
-          <Text as="b" size="lg">
+          <Text as="b" fontSize="25px">
             {type}
           </Text>
           <Flex direction="column">
