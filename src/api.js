@@ -9,7 +9,7 @@ const API = axios.create({
     },
   });
 
-export const fetchData = () =>
+export const fetchData = (time) =>
   API.get(
-    "/transport/carpark-availability?date_time=2022-01-01T10%3A00%3A00"
+    `/transport/carpark-availability?date_time=${time}`
   );
