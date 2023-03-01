@@ -53,6 +53,7 @@ function App() {
         item.carpark_info.forEach((item) => {
           carparkInfo += parseInt(item.total_lots);
         });
+        // if carpark_info has only has one object
       } else {
         carparkInfo = parseInt(item.carpark_info[0].total_lots);
       }
@@ -66,24 +67,44 @@ function App() {
 
     // find the carpark that has the highest and lowest lots available
     filteredData.forEach((item) => {
+      let totalLotsAvailable = 0;
+
       item.carpark_info.forEach((info) => {
         const lotsAvailable = parseInt(info.lots_available);
-
-        if (
-          highest === null ||
-          lotsAvailable > parseInt(highest.carpark_info[0].lots_available)
-        ) {
-          highest = item;
-        }
-
-        if (
-          lowest === null ||
-          lotsAvailable < parseInt(lowest.carpark_info[0].lots_available)
-        ) {
-          lowest = item;
-        }
+        totalLotsAvailable += lotsAvailable;
       });
+
+      if (
+        highest === null ||
+        totalLotsAvailable > parseInt(highest.carpark_info[0].lots_available)
+      ) {
+        highest = {
+          ...item,
+          carpark_info: [
+            {
+              ...item.carpark_info[0],
+              lots_available: totalLotsAvailable.toString(),
+            },
+          ],
+        };
+      }
+
+      if (
+        lowest === null ||
+        totalLotsAvailable < parseInt(lowest.carpark_info[0].lots_available)
+      ) {
+        lowest = {
+          ...item,
+          carpark_info: [
+            {
+              ...item.carpark_info[0],
+              lots_available: totalLotsAvailable.toString(),
+            },
+          ],
+        };
+      }
     });
+
     return { highest, lowest };
   };
 
