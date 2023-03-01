@@ -1,5 +1,5 @@
 import { Text, SimpleGrid, Flex } from "@chakra-ui/react";
-import { useState, useEffect, useMemo } from "react";
+import { useState, useEffect } from "react";
 import { fetchData } from "./api";
 import CardInfo from "./cardInfo";
 
@@ -11,17 +11,16 @@ function App() {
   const date = dateObject.toLocaleString("en-US", {
     timeZone: "Asia/Kuala_Lumpur",
   });
-  const klDateObject = new Date(date);
-  const klIsoString = klDateObject.toISOString();
-  const formattedDate = encodeURIComponent(klIsoString).slice(0, -5);
+  // const klDateObject = new Date(date);
+  // const klIsoString = klDateObject.toISOString();
+  // const formattedDate = encodeURIComponent(klIsoString).slice(0, -5);
 
-  useMemo(() => {
+  useEffect(() => {
     async function getData() {
       try {
         setFetching(true);
-
         setLastUpdated(date);
-        const response = await fetchData(formattedDate);
+        const response = await fetchData();
         if (response.status === 200) {
           const { carpark_data } = response.data.items[0];
 
@@ -42,7 +41,7 @@ function App() {
     }, 6000);
 
     return () => clearInterval(intervalId);
-  }, [date, formattedDate]);
+  }, [date]);
 
   // To find the highest and lowest lots available
   const DataFiltering = (data, start, end) => {
