@@ -18,12 +18,10 @@ const CardInfo = (props) => {
             {type}
           </Text>
           <Flex direction="column">
-            <Text as="b">Highest</Text>
             <Text>HIGHEST ({high?.available} lots available)</Text>
             <Text>{high?.carpark}</Text>
           </Flex>
           <Flex direction="column">
-            <Text as="b">Lowest</Text>
             <Text>LOWEST ({low?.available} lots available)</Text>
             <Text>{low?.carpark}</Text>
           </Flex>
