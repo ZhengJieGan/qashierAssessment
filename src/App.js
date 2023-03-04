@@ -35,8 +35,7 @@ function App() {
 
     const intervalId = setInterval(() => {
       getData();
-      // REMEMBER TO CHANGE BACK TO 60000
-    }, 60000);
+    }, 6000);
 
     return () => clearInterval(intervalId);
   }, [date]);
