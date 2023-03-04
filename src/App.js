@@ -50,12 +50,13 @@ function App() {
         item.carpark_info.forEach((item) => {
           carparkInfo += parseInt(item.total_lots);
         });
+
         // if carpark_info has only has one object
       } else {
         carparkInfo = parseInt(item.carpark_info[0].total_lots);
       }
 
-      // check if the sum is within the range of 100 to 300
+      // check if the sum is within the given range
       return carparkInfo > start && carparkInfo < end;
     });
 
