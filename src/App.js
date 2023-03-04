@@ -71,8 +71,8 @@ function App() {
       return carparkInfo > start && carparkInfo < end;
     });
 
-    let highest = null;
-    let lowest = null;
+    let highest = [];
+    let lowest = [];
 
     // find the carpark that has the highest and lowest lots available
     filteredData.forEach((item) => {
@@ -82,59 +82,76 @@ function App() {
       item.carpark_info.forEach((info) => {
         const lotsAvailable = parseInt(info.lots_available);
         totalLotsAvailable += lotsAvailable;
+
+        item = {
+          ...item,
+          lots_available: totalLotsAvailable,
+        };
       });
 
-      // if the carpark info has more than one object, replace the lots_available totalLotsAvailable
+      // console.log(item);
+
+      // if the carpark info has more than one object, replace the lots_available to totalLotsAvailable
       // in this case, there will always be only one object inside carpark_info
       if (
-        highest === null ||
-        totalLotsAvailable > parseInt(highest.carpark_info[0].lots_available)
+        highest.length === 0 ||
+        item?.lots_available > highest[0].lots_available
       ) {
-        highest = {
-          ...item,
-          carpark_info: [
-            {
-              ...item.carpark_info[0],
-              lots_available: totalLotsAvailable.toString(),
-            },
-          ],
-        };
+        highest[0] = item;
       }
 
+      // find the lowest carpark_info first
       if (
-        lowest === null ||
-        totalLotsAvailable < parseInt(lowest.carpark_info[0].lots_available)
+        lowest.length === 0 ||
+        item?.lots_available < lowest[0].lots_available
       ) {
-        lowest = {
-          ...item,
-          carpark_info: [
-            {
-              ...item.carpark_info[0],
-              lots_available: totalLotsAvailable.toString(),
-            },
-          ],
-        };
+        lowest[0] = item;
+        // lowest.push(item);
+      }
+
+      // if(item?.lots_available === lowest[0].lots_available){
+
+      // }
+
+      // console.log("lowest single: ", lowest)
+
+      // look for objects that has the same number of lots_available
+      // if equal then push the object
+      // if is lesser then replace the array with the object
+      if (
+        item?.lots_available === lowest[0].lots_available &&
+        lowest.length !== 3 && item !== lowest[0]
+      ) {
+        lowest.push(item);
+        // lowest.push("test")
       }
     });
+
+    console.log("highest: ", highest);
+    console.log("lowest: ", lowest);
 
     return { highest, lowest };
   };
 
   const smallData = DataFiltering(dummyData, 0, 100);
-  const smallHigh = DataRestructure(smallData?.highest);
-  const smallLow = DataRestructure(smallData?.lowest);
+  // const smallHigh = DataRestructure(smallData?.highest);
+  // const smallLow = DataRestructure(smallData?.lowest);
 
-  const mediumData = DataFiltering(dummyData, 100, 300);
-  const mediumHigh = DataRestructure(mediumData?.highest);
-  const mediumLow = DataRestructure(mediumData?.lowest);
+  useEffect(() => {
+    // console.log(smallData);
+  }, []);
 
-  const bigData = DataFiltering(dummyData, 300, 400);
-  const bigHigh = DataRestructure(bigData?.highest);
-  const bigLow = DataRestructure(bigData?.lowest);
+  // const mediumData = DataFiltering(dummyData, 100, 300);
+  // const mediumHigh = DataRestructure(mediumData?.highest);
+  // const mediumLow = DataRestructure(mediumData?.lowest);
 
-  const largeData = DataFiltering(dummyData, 400, Infinity);
-  const largeHigh = DataRestructure(largeData?.highest);
-  const largeLow = DataRestructure(largeData?.lowest);
+  // const bigData = DataFiltering(dummyData, 300, 400);
+  // const bigHigh = DataRestructure(bigData?.highest);
+  // const bigLow = DataRestructure(bigData?.lowest);
+
+  // const largeData = DataFiltering(dummyData, 400, Infinity);
+  // const largeHigh = DataRestructure(largeData?.highest);
+  // const largeLow = DataRestructure(largeData?.lowest);
 
   return (
     <Flex direction="column" justify="center">
@@ -149,13 +166,13 @@ function App() {
         alignItems="center"
         padding="5%"
       >
-        <CardInfo
+        {/* <CardInfo
           high={smallHigh}
           low={smallLow}
           type="Small"
           fetching={fetching}
-        />
-        <CardInfo
+        /> */}
+        {/* <CardInfo
           high={mediumHigh}
           low={mediumLow}
           type="Medium"
@@ -167,7 +184,7 @@ function App() {
           low={largeLow}
           type="Large"
           fetching={fetching}
-        />
+        /> */}
       </SimpleGrid>
     </Flex>
   );
