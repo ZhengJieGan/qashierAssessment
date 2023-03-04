@@ -47,6 +47,7 @@ function App() {
 
     const intervalId = setInterval(() => {
       getData();
+      // REMEMBER TO CHANGE BACK TO 60000
     }, 600000);
 
     return () => clearInterval(intervalId);
@@ -89,8 +90,6 @@ function App() {
         };
       });
 
-      // console.log(item);
-
       // if the carpark info has more than one object, replace the lots_available to totalLotsAvailable
       // in this case, there will always be only one object inside carpark_info
       if (
@@ -106,29 +105,18 @@ function App() {
         item?.lots_available < lowest[0].lots_available
       ) {
         lowest[0] = item;
-        // lowest.push(item);
       }
-
-      // if(item?.lots_available === lowest[0].lots_available){
-
-      // }
-
-      // console.log("lowest single: ", lowest)
 
       // look for objects that has the same number of lots_available
       // if equal then push the object
-      // if is lesser then replace the array with the object
       if (
         item?.lots_available === lowest[0].lots_available &&
-        lowest.length !== 3 && item !== lowest[0]
+        lowest.length !== 3 &&
+        item !== lowest[0]
       ) {
         lowest.push(item);
-        // lowest.push("test")
       }
     });
-
-    console.log("highest: ", highest);
-    console.log("lowest: ", lowest);
 
     return { highest, lowest };
   };

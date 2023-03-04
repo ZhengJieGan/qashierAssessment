@@ -68,7 +68,7 @@ export const dummyData = [
       {
         total_lots: "10",
         lot_type: "C",
-        lots_available: "0",
+        lots_available: "20",
       },
       {
         total_lots: "70",
@@ -79,6 +79,39 @@ export const dummyData = [
     carpark_number: "AB5",
     update_datetime: "2022-01-01T07:00:57",
   },
+  {
+    carpark_info: [
+      {
+        total_lots: "10",
+        lot_type: "C",
+        lots_available: "0",
+      },
+      {
+        total_lots: "70",
+        lot_type: "C",
+        lots_available: "0",
+      },
+    ],
+    carpark_number: "AB5A",
+    update_datetime: "2022-01-01T07:00:57",
+  },
+  {
+    carpark_info: [
+      {
+        total_lots: "10",
+        lot_type: "C",
+        lots_available: "100",
+      },
+      {
+        total_lots: "70",
+        lot_type: "C",
+        lots_available: "0",
+      },
+    ],
+    carpark_number: "AB5B",
+    update_datetime: "2022-01-01T07:00:57",
+  },
+  
   {
     carpark_info: [
       {
@@ -153,7 +186,7 @@ export const dummyData = [
       {
         total_lots: "10",
         lot_type: "C",
-        lots_available: "40",
+        lots_available: "400",
       },
     ],
     carpark_number: "AB10",
