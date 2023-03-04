@@ -2,16 +2,6 @@ import { Text, SimpleGrid, Flex } from "@chakra-ui/react";
 import { useState, useEffect } from "react";
 import { fetchData } from "./api";
 import CardInfo from "./cardInfo";
-import { dummyData } from "./dummyData";
-
-// Restructure the data for easier props passing
-const DataRestructure = (data) => {
-  let totalAvailable = 0;
-
-  totalAvailable = parseInt(data?.carpark_info[0]?.lots_available);
-
-  return { carpark: data?.carpark_number, available: totalAvailable };
-};
 
 function App() {
   const [data, setData] = useState([]);
@@ -28,12 +18,10 @@ function App() {
         setFetching(true);
         setLastUpdated(date);
         const response = await fetchData();
-        // console.log(response);
+
         if (response.status === 200) {
           const { carpark_data } = response.data.items[0];
-
           setData(carpark_data);
-
           setFetching(false);
         } else {
           setFetching(true);
@@ -48,14 +36,14 @@ function App() {
     const intervalId = setInterval(() => {
       getData();
       // REMEMBER TO CHANGE BACK TO 60000
-    }, 600000);
+    }, 60000);
 
     return () => clearInterval(intervalId);
   }, [date]);
 
   // To find the highest and lowest lots available
   const DataFiltering = (data, start, end) => {
-    const filteredData = dummyData.filter((item) => {
+    const filteredData = data.filter((item) => {
       let carparkInfo = 0;
 
       // if carpark_info has more than one object
@@ -121,25 +109,10 @@ function App() {
     return { highest, lowest };
   };
 
-  const smallData = DataFiltering(dummyData, 0, 100);
-  // const smallHigh = DataRestructure(smallData?.highest);
-  // const smallLow = DataRestructure(smallData?.lowest);
-
-  useEffect(() => {
-    // console.log(smallData);
-  }, []);
-
-  // const mediumData = DataFiltering(dummyData, 100, 300);
-  // const mediumHigh = DataRestructure(mediumData?.highest);
-  // const mediumLow = DataRestructure(mediumData?.lowest);
-
-  // const bigData = DataFiltering(dummyData, 300, 400);
-  // const bigHigh = DataRestructure(bigData?.highest);
-  // const bigLow = DataRestructure(bigData?.lowest);
-
-  // const largeData = DataFiltering(dummyData, 400, Infinity);
-  // const largeHigh = DataRestructure(largeData?.highest);
-  // const largeLow = DataRestructure(largeData?.lowest);
+  const small = DataFiltering(data, 0, 100);
+  const medium = DataFiltering(data, 100, 300);
+  const big = DataFiltering(data, 300, 400);
+  const large = DataFiltering(data, 400, Infinity);
 
   return (
     <Flex direction="column" justify="center">
@@ -154,25 +127,10 @@ function App() {
         alignItems="center"
         padding="5%"
       >
-        {/* <CardInfo
-          high={smallHigh}
-          low={smallLow}
-          type="Small"
-          fetching={fetching}
-        /> */}
-        {/* <CardInfo
-          high={mediumHigh}
-          low={mediumLow}
-          type="Medium"
-          fetching={fetching}
-        />
-        <CardInfo high={bigHigh} low={bigLow} type="Big" fetching={fetching} />
-        <CardInfo
-          high={largeHigh}
-          low={largeLow}
-          type="Large"
-          fetching={fetching}
-        /> */}
+        <CardInfo data={small} type="Small" fetching={fetching} />
+        <CardInfo data={medium} type="Medium" fetching={fetching} />
+        <CardInfo data={big} type="Big" fetching={fetching} />
+        <CardInfo data={large} type="Large" fetching={fetching} />
       </SimpleGrid>
     </Flex>
   );

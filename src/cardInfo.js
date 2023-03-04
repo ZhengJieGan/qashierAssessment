@@ -1,12 +1,13 @@
 import { Card, CardBody, Text, Flex, Spinner } from "@chakra-ui/react";
-import React from "react";
+import React, { Fragment } from "react";
 
 const CardInfo = (props) => {
-  const { high, low, type, fetching } = props;
+  const { data, type, fetching } = props;
+  const { highest, lowest } = data;
 
   return (
     <Card width="auto" height="auto">
-      {high.carpark === undefined || low.carpark === undefined || fetching ? (
+      {data.highest === undefined || data.lowest === undefined || fetching ? (
         <CardBody>
           <Flex justify="center">
             <Spinner />
@@ -18,12 +19,23 @@ const CardInfo = (props) => {
             {type}
           </Text>
           <Flex direction="column">
-            <Text>HIGHEST ({high?.available} lots available)</Text>
-            <Text>{high?.carpark}</Text>
+            <Text>HIGHEST ({highest[0]?.lots_available} lots available)</Text>
+            <Text>{highest[0]?.carpark_number}</Text>
           </Flex>
           <Flex direction="column">
-            <Text>LOWEST ({low?.available} lots available)</Text>
-            <Text>{low?.carpark}</Text>
+            <Text>LOWEST ({lowest[0]?.lots_available} lots available)</Text>
+            <Flex direction="row">
+              {lowest?.map((data, index) => {
+                return (
+                  <Fragment key={data?.carpark_number}>
+                    {index > 0 && (
+                      <Text style={{ display: "inline-block" }}>, </Text>
+                    )}
+                    <Text display="inline-block">{data?.carpark_number} </Text>
+                  </Fragment>
+                );
+              })}
+            </Flex>
           </Flex>
         </CardBody>
       )}
