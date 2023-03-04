@@ -2,6 +2,16 @@ import { Text, SimpleGrid, Flex } from "@chakra-ui/react";
 import { useState, useEffect } from "react";
 import { fetchData } from "./api";
 import CardInfo from "./cardInfo";
+import { dummyData } from "./dummyData";
+
+// Restructure the data for easier props passing
+const DataRestructure = (data) => {
+  let totalAvailable = 0;
+
+  totalAvailable = parseInt(data?.carpark_info[0]?.lots_available);
+
+  return { carpark: data?.carpark_number, available: totalAvailable };
+};
 
 function App() {
   const [data, setData] = useState([]);
@@ -18,10 +28,12 @@ function App() {
         setFetching(true);
         setLastUpdated(date);
         const response = await fetchData();
+        // console.log(response);
         if (response.status === 200) {
           const { carpark_data } = response.data.items[0];
 
           setData(carpark_data);
+
           setFetching(false);
         } else {
           setFetching(true);
@@ -35,14 +47,14 @@ function App() {
 
     const intervalId = setInterval(() => {
       getData();
-    }, 60000);
+    }, 600000);
 
     return () => clearInterval(intervalId);
   }, [date]);
 
   // To find the highest and lowest lots available
   const DataFiltering = (data, start, end) => {
-    const filteredData = data.filter((item) => {
+    const filteredData = dummyData.filter((item) => {
       let carparkInfo = 0;
 
       // if carpark_info has more than one object
@@ -56,7 +68,7 @@ function App() {
       }
 
       // check if the sum is within the range of 100 to 300
-      return carparkInfo >= start && carparkInfo <= end;
+      return carparkInfo > start && carparkInfo < end;
     });
 
     let highest = null;
@@ -108,28 +120,19 @@ function App() {
     return { highest, lowest };
   };
 
-  // Restructure the data for easier props passing
-  const DataRestructure = (data) => {
-    let totalAvailable = 0;
-
-    totalAvailable = parseInt(data?.carpark_info[0]?.lots_available);
-
-    return { carpark: data?.carpark_number, available: totalAvailable };
-  };
-
-  const smallData = DataFiltering(data, 0, 100);
+  const smallData = DataFiltering(dummyData, 0, 100);
   const smallHigh = DataRestructure(smallData?.highest);
   const smallLow = DataRestructure(smallData?.lowest);
 
-  const mediumData = DataFiltering(data, 100, 300);
+  const mediumData = DataFiltering(dummyData, 100, 300);
   const mediumHigh = DataRestructure(mediumData?.highest);
   const mediumLow = DataRestructure(mediumData?.lowest);
 
-  const bigData = DataFiltering(data, 300, 400);
+  const bigData = DataFiltering(dummyData, 300, 400);
   const bigHigh = DataRestructure(bigData?.highest);
   const bigLow = DataRestructure(bigData?.lowest);
 
-  const largeData = DataFiltering(data, 400, Infinity);
+  const largeData = DataFiltering(dummyData, 400, Infinity);
   const largeHigh = DataRestructure(largeData?.highest);
   const largeLow = DataRestructure(largeData?.lowest);
 
