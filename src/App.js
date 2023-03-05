@@ -68,6 +68,8 @@ function App() {
       let totalLotsAvailable = 0;
 
       // loop through the carpark info because it might have more than one object
+      // get the total lots_available and add into each of the objects
+      // so that it is easier to access the value later on
       item.carpark_info.forEach((info) => {
         const lotsAvailable = parseInt(info.lots_available);
         totalLotsAvailable += lotsAvailable;
@@ -78,8 +80,7 @@ function App() {
         };
       });
 
-      // if the carpark info has more than one object, replace the lots_available to totalLotsAvailable
-      // in this case, there will always be only one object inside carpark_info
+      // find the highest lots_available
       if (
         highest.length === 0 ||
         item?.lots_available > highest[0].lots_available
@@ -87,7 +88,7 @@ function App() {
         highest[0] = item;
       }
 
-      // find the lowest carpark_info first
+      // find the lowest lots_available
       if (
         lowest.length === 0 ||
         item?.lots_available < lowest[0].lots_available
